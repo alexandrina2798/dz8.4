@@ -2,21 +2,21 @@ package main.java;
 
 public class Fruit {
 
-    String sort = String.valueOf(getClass());
+    private String sort = String.valueOf(getClass());
 
-    boolean fresh = true;
+    private boolean fresh = true;
 
-    public void setFresh(boolean fresh){
+    public final void setFresh(final boolean fresh) {
         this.fresh = fresh;
     }
 
-    public boolean getFresh(){
+    public final boolean getFresh() {
         return this.fresh;
     }
 
     @Override
-    public String toString() {
-        switch (sort){
+    public final String toString() {
+        switch (sort) {
             case ("class main.java.Orange"):
                 sort = "апельсин";
                 break;
@@ -28,7 +28,7 @@ public class Fruit {
                 break;
         }
 
-        if (getFresh()){
+        if (getFresh()) {
             return ("свежий " +  sort);
         } else {
             return ("не первой свежести " +  sort);

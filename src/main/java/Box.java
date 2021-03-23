@@ -1,14 +1,13 @@
 package main.java;
 
-public class Box<T> {
+final class Box<T> {
 
     private T element;
-
-    public void put(T element){
+    void put(final T element) {
         this.element = element;
     }
 
-    public T get(){
+    public T get() {
         return this.element;
     }
 
