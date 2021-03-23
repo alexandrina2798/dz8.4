@@ -4,17 +4,27 @@ public class BoxUtil {
 
     // скопировать содержимое из одной коробки в другую
     //Box(dest) в которую будем копировать может быть типизирована любым родителем объекта содержащимся в Box(src)
-    public static <T> void copyFromBoxToBox(Box<T> src, Box<T> dest) {
-        dest.put(src.get());
+    public static <T> void copyFromBoxToBox(Box<?> src, Box<T> dest) {
+        try {
+            dest.put((T) src.get());
+        }
+        catch (NullPointerException e){
+            System.out.println("Невозможно выполнить: в коробке пусто");
+        }
     }
 
     // скопировать содержимое из Box(src) которая может быть типизирована только классом Fruit и его наследниками,
     // при условии, что содержащийся фрукт свежий (fresh == true).
     //Box(dest) в которую будем копировать может быть типизирована любым родителем объекта содержащимся в Box(src)
-    public static <T> void copyFreshFruitFromBoxToBox(Box<T> src, Box<T> dest) {
-        Box <Fruit> box1 = (Box<Fruit>) src;
-        if (box1.get().getFresh()){
-            dest.put((T) box1.get());
+    public static <T> void copyFreshFruitFromBoxToBox(Box<?> src, Box<T> dest) {
+        try {
+            Box <Fruit> box1 = (Box<Fruit>) src;
+            if (box1.get().getFresh()){
+                dest.put((T) box1.get());
+            }
+        }
+        catch (NullPointerException e){
+            System.out.println("Невозможно выполнить: в коробке пусто");
         }
     }
 
@@ -33,13 +43,15 @@ public class BoxUtil {
      * вывести в консоль (toString()) объект последней коробки
      *
      * box Box, которая содержит в себе любое кол-во вложенных Box, в последней из которых может быть любой объект.
+     * @param box
      */
-    public static <T extends Box<T>> void printElementFromBoxes(Box<T> box) {
-        Box<T> tempoBox = box;
+
+    public static <T extends Box<T>> void printElementFromBoxes(Box<?> box) {
+        Box<?> tempoBox = box;
         int error = 0;
         while (error == 0) {
             try {
-                tempoBox = tempoBox.get();
+                tempoBox = (Box<Apple>) ((Box<?>) tempoBox).get();
             } catch (ClassCastException exception) {
                 error+=1;
             }
